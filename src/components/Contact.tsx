@@ -1,3 +1,4 @@
+// contact.tsx
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Button } from "./ui/button";
@@ -5,22 +6,23 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Send, Mail, MapPin, Phone } from "lucide-react";
 import { toast } from "sonner";
+import emailjs from "@emailjs/browser";
 
 const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "hello@syncmindtech.com",
+    value: "syncmindtech1@gmail.com",
   },
   {
     icon: Phone,
     label: "Phone",
-    value: "+1 (555) 123-4567",
+    value: "+256 757 330 656",
   },
   {
     icon: MapPin,
     label: "Location",
-    value: "San Francisco, CA",
+    value: "Kampala, UG",
   },
 ];
 
@@ -29,16 +31,28 @@ export const Contact = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    toast.success("Message sent successfully! We'll get back to you soon.");
+
+    const form = e.target as HTMLFormElement;
+
+    try {
+      await emailjs.sendForm(
+        "service_oe5ucrq",      // Your EmailJS Service ID
+        "template_v78i06a",     // Your EmailJS Template ID
+        form,
+        "HpA0SOu8_rLrELYTg"     // Your EmailJS Public Key
+      );
+
+      toast.success("Message sent successfully! We'll get back to you soon.");
+      form.reset();
+    } catch (error) {
+      console.error(error); 
+      toast.error("Oops! Something went wrong, please try again.");
+    }
+
     setIsSubmitting(false);
-    (e.target as HTMLFormElement).reset();
   };
 
   return (
@@ -74,7 +88,7 @@ export const Contact = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-muted-foreground text-lg mb-10"
             >
-              Ready to elevate your digital presence? Drop us a message and 
+              Ready to elevate your digital presence? Drop us a message and
               let's discuss how we can help your business grow.
             </motion.p>
 
@@ -110,43 +124,47 @@ export const Contact = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium mb-2">Name</label>
-                  <Input 
-                    placeholder="Your name" 
-                    required 
+                  <Input
+                    name="user_name" // EmailJS variable
+                    placeholder="Your name"
+                    required
                     className="bg-secondary/50 border-border focus:border-primary"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">Email</label>
-                  <Input 
-                    type="email" 
-                    placeholder="your@email.com" 
-                    required 
+                  <Input
+                    type="email"
+                    name="user_email" // EmailJS variable
+                    placeholder="your@email.com"
+                    required
                     className="bg-secondary/50 border-border focus:border-primary"
                   />
                 </div>
               </div>
               <div>
                 <label className="block text-sm font-medium mb-2">Subject</label>
-                <Input 
-                  placeholder="What's this about?" 
-                  required 
+                <Input
+                  name="subject" // EmailJS variable
+                  placeholder="What's this about?"
+                  required
                   className="bg-secondary/50 border-border focus:border-primary"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-2">Message</label>
-                <Textarea 
-                  placeholder="Tell us about your project..." 
-                  rows={5} 
-                  required 
+                <Textarea
+                  name="message" // EmailJS variable
+                  placeholder="Tell us about your project..."
+                  rows={5}
+                  required
                   className="bg-secondary/50 border-border focus:border-primary resize-none"
                 />
               </div>
-              <Button 
-                type="submit" 
-                variant="hero" 
-                size="lg" 
+              <Button
+                type="submit"
+                variant="hero"
+                size="lg"
                 className="w-full"
                 disabled={isSubmitting}
               >
