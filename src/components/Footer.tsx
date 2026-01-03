@@ -36,13 +36,13 @@ export const Footer = () => {
           <div className="lg:col-span-2">
             <motion.div whileHover={{ scale: 1.05 }} className="inline-block mb-4">
               <Link to="/" className="text-2xl font-bold tracking-tight">
-                <span className="text-primary">Craft</span>
-                <span className="text-foreground">Studio</span>
+                <span className="text-primary">SyncMind</span>
+                <span className="text-foreground">Tech</span>
               </Link>
             </motion.div>
             <p className="text-muted-foreground max-w-md mb-6">
-              We craft stunning digital experiences that help businesses thrive. 
-              From design to development, we're your partner in digital success.
+              We are a forward-thinking digital agency that specializes in creating innovative web solutions. 
+              Our team combines creativity with technical expertise to deliver results that exceed expectations.
             </p>
             
             {/* Social Links */}
@@ -101,7 +101,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-muted-foreground text-sm">
-            © {new Date().getFullYear()} CraftStudio. All rights reserved.
+            © {new Date().getFullYear()} SyncMindTech. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-muted-foreground">
             <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>

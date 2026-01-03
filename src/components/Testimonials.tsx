@@ -6,7 +6,7 @@ const testimonials = [
   {
     name: "Sarah Johnson",
     role: "CEO, TechStart",
-    content: "CraftStudio transformed our online presence completely. Our new Shopify store saw a 200% increase in conversions within the first month.",
+    content: "SyncMindTech transformed our online presence completely. Our new Shopify store saw a 200% increase in conversions within the first month.",
     rating: 5,
   },
   {
