@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 export const Hero = () => {
   return (
@@ -44,7 +45,7 @@ export const Hero = () => {
           >
             <Sparkles className="w-4 h-4 text-primary" />
             <span className="text-sm text-muted-foreground">
-              Crafting Digital Experiences
+              Innovating Digital Excellence
             </span>
           </motion.div>
 
@@ -101,13 +102,17 @@ export const Hero = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <Button variant="hero" size="xl" className="group">
-              Start Your Project
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </Button>
-            <Button variant="heroOutline" size="xl">
-              View Our Work
-            </Button>
+            <Link to="/contact">
+              <Button variant="hero" size="xl" className="group">
+                Start Your Project
+                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
+            <Link to="/work">
+              <Button variant="heroOutline" size="xl">
+                View Our Work
+              </Button>
+            </Link>
           </motion.div>
 
           {/* Stats */}

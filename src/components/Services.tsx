@@ -52,8 +52,8 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      whileHover={{ y: -8 }}
+      transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
+      whileHover={{ y: -8, transition: { duration: 0.3 } }}
       className="group relative glass rounded-2xl p-8 overflow-hidden cursor-pointer"
     >
       {/* Hover Gradient */}

@@ -5,7 +5,6 @@ import { Button } from "./ui/button";
 import { Link, useLocation } from "react-router-dom";
 
 const navLinks = [
-  { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
   { name: "About", href: "/about" },
   { name: "Work", href: "/work" },
@@ -37,8 +36,8 @@ export const Navigation = () => {
       <div className="container mx-auto px-6 flex items-center justify-between">
         <motion.div whileHover={{ scale: 1.05 }}>
           <Link to="/" className="text-2xl font-bold tracking-tight">
-            <span className="text-primary">Craft</span>
-            <span className="text-foreground">Studio</span>
+            <span className="text-primary">SyncMind</span>
+            <span className="text-foreground">Tech</span>
           </Link>
         </motion.div>
 

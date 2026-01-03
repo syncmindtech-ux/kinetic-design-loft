@@ -10,7 +10,7 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "hello@craftstudio.com",
+    value: "hello@syncmindtech.com",
   },
   {
     icon: Phone,
