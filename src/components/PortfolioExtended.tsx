@@ -12,7 +12,7 @@ const projects = [
     category: "Shopify",
     description: "A modern e-commerce platform with 200% conversion increase. We redesigned the entire shopping experience from product pages to checkout flow.",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
-    url: "https://apollorunning.store/"
+    url: "https://apollorunning.store/",
     stats: { metric: "200%", label: "Conversion Increase" }
   },
   {
