@@ -34,8 +34,11 @@ export const Hero = () => {
         />
       </div>
 
+      {/* (GIF will be placed in the right column inside the container on large screens) */}
+
       <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center lg:items-start gap-8">
+          <div className="w-full lg:w-1/2 text-center lg:text-left">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -55,7 +58,7 @@ export const Hero = () => {
               initial={{ y: 100 }}
               animate={{ y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.9]"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95]"
             >
               We Build
             </motion.h1>
@@ -65,7 +68,7 @@ export const Hero = () => {
               initial={{ y: 100 }}
               animate={{ y: 0 }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.9]"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95]"
             >
               <span className="text-gradient">Stunning</span> Websites
             </motion.h1>
@@ -75,7 +78,7 @@ export const Hero = () => {
               initial={{ y: 100 }}
               animate={{ y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.9]"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95]"
             >
               That <span className="text-primary">Convert</span>
             </motion.h1>
@@ -86,7 +89,7 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12"
+            className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mb-12"
           >
             WordPress • Webflow • Shopify • SEO • Figma Design
             <br />
@@ -142,6 +145,30 @@ export const Hero = () => {
               </motion.div>
             ))}
           </motion.div>
+          </div>
+
+          {/* Right column - GIF with faint watermark blob behind it */}
+          <div className="hidden lg:flex w-1/2 justify-center items-start pt-8 relative">
+            <div
+              aria-hidden="true"
+              className="absolute -top-20 -right-12 w-[520px] h-[520px] rounded-full bg-primary/10 opacity-30 blur-3xl pointer-events-none"
+            />
+            <motion.img
+              src="/gifs/data-extraction.gif"
+              alt="Data extraction animation"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="relative z-10 w-[420px] max-w-[90%] rounded-2xl ring-1 ring-white/10"
+              loading="lazy"
+              onError={(e: any) => {
+                if (!e.currentTarget.dataset.fallback) {
+                  e.currentTarget.dataset.fallback = "1";
+                  e.currentTarget.src = "/Data%20extraction.gif";
+                }
+              }}
+            />
+          </div>
         </div>
       </div>
 
