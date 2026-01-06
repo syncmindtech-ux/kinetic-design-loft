@@ -66,7 +66,7 @@ export const About = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-muted-foreground text-lg mb-8 leading-relaxed"
             >
-              With over 5 years of experience, we've helped businesses of all sizes 
+              With over 2 years of experience, we've helped businesses of all sizes 
               establish their digital presence. Our team combines creativity with 
               technical expertise to deliver websites that not only look stunning 
               but also drive real business results.
