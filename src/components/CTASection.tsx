@@ -9,7 +9,7 @@ export const CTASection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-24 md:py-32 relative overflow-hidden">
+    <section ref={ref} className="py-24 md:py-32 relative overflow-hidden bg-[#f6f5f5]">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <motion.div

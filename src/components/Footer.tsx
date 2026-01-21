@@ -27,7 +27,7 @@ const socialLinks = [
 
 export const Footer = () => {
   return (
-    <footer className="border-t border-border py-16 relative overflow-hidden bg-card">
+    <footer className="border-t border-border py-16 relative overflow-hidden bg-gradient-to-r from-[#FCE8E8] to-[#FDF2F2]">
       {/* Background Accent */}
       <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
 
