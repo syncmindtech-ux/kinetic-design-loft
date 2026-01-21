@@ -40,7 +40,7 @@ export const WhyChooseUs = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="py-24 md:py-32 relative bg-secondary/30">
+  <section className="py-24 md:py-32 relative bg-[#f6f5f5]">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div ref={ref} className="text-center max-w-3xl mx-auto mb-16">

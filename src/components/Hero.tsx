@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export const Hero = () => {
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 bg-gradient-to-br from-[#FCE8E8] to-[#FDF2F2]">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
