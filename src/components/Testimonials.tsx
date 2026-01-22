@@ -43,7 +43,7 @@ export const Testimonials = () => {
   };
 
   return (
-    <section id="work" className="py-24 md:py-32 relative bg-[#f6f5f5]">
+    <section id="work" className="py-20 md:py-15 relative bg-[#f6f5f5]">
       <div className="container mx-auto px-6">
         <div ref={ref} className="text-center max-w-3xl mx-auto mb-16">
           <motion.span
