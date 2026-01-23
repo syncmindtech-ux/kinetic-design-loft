@@ -10,7 +10,7 @@ export const Hero = () => {
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: "url('./public/heroimage.png')",
+          backgroundImage: "url('/heroimage.png')",
         }}
       />
 
@@ -92,7 +92,7 @@ export const Hero = () => {
               className="rounded-3xl p-10 shadow-2xl"
             >
               <img
-                src="/public/output-onlinegiftools (3).gif"
+                src="/output-onlinegiftools (3).gif"
                 alt="Website analytics animation"
                 className="w-[420px] max-w-full"
                 loading="lazy"
