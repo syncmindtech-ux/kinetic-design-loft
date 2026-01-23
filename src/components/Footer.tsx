@@ -27,7 +27,7 @@ const socialLinks = [
 
 export const Footer = () => {
   return (
-    <footer className="border-t border-border py-16 relative overflow-hidden bg-gradient-to-r from-[#FCE8E8] to-[#FDF2F2]">
+    <footer className="border-t border-border py-16 relative overflow-hidden bg-gradient-to-r from-[#24191f] to-[#24191f]">
       {/* Background Accent */}
       <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
 
@@ -38,7 +38,7 @@ export const Footer = () => {
             <motion.div whileHover={{ scale: 1.05 }} className="inline-block mb-4">
               <Link to="/" className="text-2xl font-bold tracking-tight">
                 <span className="text-primary">SyncMind</span>
-                <span className="text-foreground">Tech</span>
+                <span className="text-white">Tech</span>
               </Link>
             </motion.div>
             <p className="text-muted-foreground max-w-md mb-6">
@@ -54,7 +54,7 @@ export const Footer = () => {
                   href={social.href}
                   aria-label={social.label}
                   whileHover={{ y: -3 }}
-                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:border-primary hover:text-primary transition-colors"
+                  className="w-10 h-10 rounded-full border text-white border-border flex items-center justify-center hover:border-primary hover:text-primary transition-colors"
                 >
                   <social.icon className="w-4 h-4" />
                 </motion.a>
