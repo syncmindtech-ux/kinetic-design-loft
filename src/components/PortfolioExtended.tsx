@@ -1,67 +1,75 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 
-const categories = ["All", "WordPress", "Webflow", "Shopify", "SEO", "Design"];
+const categories = ["All", "WordPress", "Shopify", "SEO", "Design", "Maintenance"];
 
 const projects = [
   {
-    title: "TechStart E-commerce",
+    title: "Apollo Running Store",
     category: "Shopify",
-    description: "A modern e-commerce platform with 200% conversion increase. We redesigned the entire shopping experience from product pages to checkout flow.",
+    description: "A modern e-commerce platform for running gear with seamless shopping experience and optimized checkout flow.",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
-    stats: { metric: "200%", label: "Conversion Increase" }
+    stats: { metric: "200%", label: "Conversion Increase" },
+    link: "https://apollorunning.store/"
   },
   {
     title: "GreenLeaf Brand",
     category: "WordPress",
     description: "Complete brand overhaul and website redesign for organic products company with integrated e-commerce and blog.",
     image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&h=400&fit=crop",
-    stats: { metric: "150K+", label: "Monthly Visitors" }
+    stats: { metric: "150K+", label: "Monthly Visitors" },
+    link: "https://grace-grid-cms.lovable.app/"
   },
   {
-    title: "Urban Fitness",
-    category: "Webflow",
-    description: "Dynamic fitness platform with membership integration, class booking system, and trainer profiles.",
+    title: "Tempo Tune Site",
+    category: "Maintenance",
+    description: "Comprehensive website maintenance and performance optimization for a music streaming platform.",
     image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop",
-    stats: { metric: "85%", label: "More Sign-ups" }
+    stats: { metric: "99.9%", label: "Uptime" },
+    link: "https://tempo-tune-site.lovable.app/"
   },
   {
     title: "Bloom Agency",
     category: "Design",
     description: "Creative agency portfolio with stunning animations and interactive case studies showcase.",
     image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop",
-    stats: { metric: "40+", label: "Awards Won" }
+    stats: { metric: "40+", label: "Awards Won" },
+    link: "https://apollorunning.store/"
   },
   {
     title: "CloudTech Solutions",
     category: "SEO",
     description: "From page 10 to top 3 ranking in just 3 months through comprehensive SEO strategy.",
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=400&fit=crop",
-    stats: { metric: "Top 3", label: "Google Rankings" }
+    stats: { metric: "Top 3", label: "Google Rankings" },
+    link: "https://grace-grid-cms.lovable.app/"
   },
   {
     title: "Artisan Coffee",
     category: "Shopify",
     description: "Subscription-based coffee delivery with custom checkout and inventory management.",
     image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=400&fit=crop",
-    stats: { metric: "5K+", label: "Subscribers" }
+    stats: { metric: "5K+", label: "Subscribers" },
+    link: "https://apollorunning.store/"
   },
   {
     title: "Luxe Interiors",
     category: "WordPress",
     description: "High-end interior design portfolio with project galleries and client testimonials.",
     image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&h=400&fit=crop",
-    stats: { metric: "300%", label: "Lead Generation" }
+    stats: { metric: "300%", label: "Lead Generation" },
+    link: "https://tempo-tune-site.lovable.app/"
   },
   {
-    title: "Nomad Travel",
-    category: "Webflow",
-    description: "Travel booking platform with destination guides and personalized trip planning.",
+    title: "Digital Hub",
+    category: "Maintenance",
+    description: "Ongoing maintenance and security updates for a tech news platform with high traffic.",
     image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&h=400&fit=crop",
-    stats: { metric: "1M+", label: "Bookings" }
+    stats: { metric: "1M+", label: "Page Views" },
+    link: "https://grace-grid-cms.lovable.app/"
   },
 ];
 
@@ -125,13 +133,16 @@ export const PortfolioExtended = () => {
           {/* Projects Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project, index) => (
-              <motion.div
+              <motion.a
                 key={project.title}
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 whileHover={{ y: -8 }}
-                className="group relative glass rounded-2xl overflow-hidden cursor-pointer"
+                className="group relative glass rounded-2xl overflow-hidden cursor-pointer block"
               >
                 <div className="aspect-[4/3] overflow-hidden relative">
                   <img
@@ -151,11 +162,11 @@ export const PortfolioExtended = () => {
                   <span className="text-primary text-sm font-medium">{project.category}</span>
                   <h3 className="text-xl font-semibold mt-2 flex items-center gap-2">
                     {project.title}
-                    <ArrowUpRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary" />
+                    <ExternalLink className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary" />
                   </h3>
                   <p className="text-muted-foreground text-sm mt-2 line-clamp-2">{project.description}</p>
                 </div>
-              </motion.div>
+              </motion.a>
             ))}
           </div>
         </div>
