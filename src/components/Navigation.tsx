@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link, useLocation } from "react-router-dom";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navLinks = [
   { name: "Services", href: "/services" },
@@ -30,7 +31,7 @@ export const Navigation = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 backdrop-blur-md bg-[#f6f5f5]/80 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 backdrop-blur-md bg-background/80 ${
         isScrolled ? "shadow-lg py-4" : "py-6"
       }`}
     >
@@ -68,7 +69,9 @@ export const Navigation = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
+            className="flex items-center gap-4"
           >
+            <ThemeToggle />
             <Link to="/contact">
               <Button variant="hero" size="sm">
                 Get Started

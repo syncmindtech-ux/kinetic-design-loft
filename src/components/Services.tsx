@@ -3,11 +3,12 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { 
   Globe, 
-  Palette, 
+  Settings, 
   ShoppingBag, 
   Search, 
   Figma,
-  ArrowUpRight
+  ArrowUpRight,
+  TrendingUp
 } from "lucide-react";
 
 const services = [
@@ -18,10 +19,10 @@ const services = [
     features: ["Custom Themes", "Plugin Development", "WooCommerce", "Performance Optimization"],
   },
   {
-    icon: Palette,
-    title: "Webflow Design",
-    description: "Stunning, responsive websites built with Webflow's visual development platform.",
-    features: ["Visual Design", "CMS Integration", "Animations", "Responsive Layouts"],
+    icon: Settings,
+    title: "Website Maintenance",
+    description: "Keep your website running smoothly with our comprehensive maintenance and support services.",
+    features: ["Security Updates", "Performance Monitoring", "Bug Fixes", "Content Updates"],
   },
   {
     icon: ShoppingBag,
@@ -40,6 +41,12 @@ const services = [
     title: "Figma Design",
     description: "Beautiful UI/UX designs that combine aesthetics with user-centered functionality.",
     features: ["UI Design", "UX Research", "Prototyping", "Design Systems"],
+  },
+  {
+    icon: TrendingUp,
+    title: "Digital Marketing",
+    description: "Strategic digital marketing campaigns that grow your brand and drive measurable results.",
+    features: ["Social Media", "PPC Advertising", "Email Marketing", "Brand Strategy"],
   },
 ];
 
