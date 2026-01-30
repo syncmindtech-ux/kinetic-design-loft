@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center pt-28 overflow-hidden">
+    <section className="relative min-h-screen flex items-center pt-28 pb-40 md:pb-48 overflow-hidden">
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -95,7 +95,8 @@ export const Hero = () => {
                 src="/output-onlinegiftools (3).gif"
                 alt="Website analytics animation"
                 className="w-[420px] max-w-full"
-                loading="lazy"
+                loading="eager"
+                decoding="async"
                 onError={(e: any) => {
                   if (!e.currentTarget.dataset.fallback) {
                     e.currentTarget.dataset.fallback = "1";
@@ -108,7 +109,7 @@ export const Hero = () => {
         </div>
 
         {/* STATS BAR */}
-        <div className="mt-28 bg-white rounded-2xl shadow-xl grid grid-cols-2 md:grid-cols-4 gap-6 px-10 py-8 ">
+        <div className="mt-16 md:mt-20 bg-white dark:bg-secondary rounded-2xl shadow-xl grid grid-cols-2 md:grid-cols-4 gap-6 px-6 md:px-10 py-6 md:py-8">
           {[
             { value: "5+", label: "Projects Delivered" },
             { value: "5+%", label: "Client Satisfaction" },
@@ -116,10 +117,10 @@ export const Hero = () => {
             { value: "2+", label: "Years Experience" },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="text-3xl font-bold text-red-500 mb-1">
+              <div className="text-2xl md:text-3xl font-bold text-primary mb-1">
                 {stat.value}
               </div>
-              <div className="text-sm text-gray-600">
+              <div className="text-xs md:text-sm text-muted-foreground">
                 {stat.label}
               </div>
             </div>
