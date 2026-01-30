@@ -32,10 +32,14 @@ export const Banner = ({
       className="relative h-[400px] md:h-[450px] overflow-hidden"
     >
       {/* Background Image with Overlay */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${imageUrl})` }}
-      >
+      <div className="absolute inset-0">
+        <img 
+          src={imageUrl} 
+          alt="" 
+          className="w-full h-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/60" />
       </div>
 
