@@ -1,37 +1,32 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { MessageSquare, PenTool, Code, Rocket } from "lucide-react";
+import { MessageSquare, PenTool, Code, Rocket, Search, Settings, Zap, Check } from "lucide-react";
+import { useProcessSteps } from "@/hooks/useCMSData";
 
-const steps = [
-  {
-    icon: MessageSquare,
-    step: "01",
-    title: "Discovery & Strategy",
-    description: "We start by understanding your business, goals, target audience, and competitive landscape. Through detailed consultations, we develop a comprehensive strategy that aligns with your vision and sets the foundation for success.",
-  },
-  {
-    icon: PenTool,
-    step: "02",
-    title: "Design & Prototyping",
-    description: "Our designers create stunning visual concepts and interactive prototypes using Figma. We iterate based on your feedback until we achieve a design that perfectly represents your brand and engages your users.",
-  },
-  {
-    icon: Code,
-    step: "03",
-    title: "Development & Testing",
-    description: "Our development team brings the designs to life using the best platform for your needs—WordPress, Webflow, or Shopify. We rigorously test across devices and browsers to ensure flawless performance.",
-  },
-  {
-    icon: Rocket,
-    step: "04",
-    title: "Launch & Optimize",
-    description: "After thorough quality assurance, we launch your website with SEO optimization baked in. We continue to monitor performance, gather analytics, and make data-driven improvements for ongoing success.",
-  },
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  MessageSquare,
+  PenTool,
+  Code,
+  Rocket,
+  Search,
+  Settings,
+  Zap,
+  Check,
+};
+
+const fallbackSteps = [
+  { id: '1', step_number: "01", icon: "MessageSquare", title: "Discovery & Strategy", description: "We start by understanding your business, goals, target audience, and competitive landscape.", order_index: 0 },
+  { id: '2', step_number: "02", icon: "PenTool", title: "Design & Prototyping", description: "Our designers create stunning visual concepts and interactive prototypes using Figma.", order_index: 1 },
+  { id: '3', step_number: "03", icon: "Code", title: "Development & Testing", description: "Our development team brings the designs to life using the best platform for your needs.", order_index: 2 },
+  { id: '4', step_number: "04", icon: "Rocket", title: "Launch & Optimize", description: "After thorough quality assurance, we launch your website with SEO optimization baked in.", order_index: 3 },
 ];
 
 export const Process = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { data: steps } = useProcessSteps();
+
+  const displaySteps = steps && steps.length > 0 ? steps : fallbackSteps;
 
   return (
     <section className="py-24 md:py-32 relative">
@@ -71,42 +66,45 @@ export const Process = () => {
           <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary/50 via-primary to-primary/50 -translate-x-1/2" />
 
           <div className="space-y-16 lg:space-y-0">
-            {steps.map((step, index) => (
-              <motion.div
-                key={step.step}
-                initial={{ opacity: 0, y: 50 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                transition={{ duration: 0.6, delay: 0.2 * index }}
-                className={`lg:flex items-center gap-8 ${
-                  index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
-                } ${index > 0 ? "lg:mt-16" : ""}`}
-              >
-                {/* Content */}
-                <div className={`lg:w-1/2 ${index % 2 === 0 ? "lg:text-right lg:pr-16" : "lg:pl-16"}`}>
-                  <motion.div
-                    whileHover={{ x: index % 2 === 0 ? -10 : 10 }}
-                    transition={{ duration: 0.3 }}
-                    className="glass rounded-2xl p-8"
-                  >
-                    <span className="text-5xl font-bold text-primary/20">{step.step}</span>
-                    <h3 className="text-2xl font-bold mt-2 mb-4">{step.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{step.description}</p>
-                  </motion.div>
-                </div>
-
-                {/* Icon - Center */}
+            {displaySteps.map((step, index) => {
+              const IconComponent = iconMap[step.icon] || MessageSquare;
+              return (
                 <motion.div
-                  whileHover={{ scale: 1.1, rotate: 360 }}
-                  transition={{ duration: 0.6 }}
-                  className="hidden lg:flex w-16 h-16 rounded-full bg-primary items-center justify-center flex-shrink-0 z-10"
+                  key={step.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                  transition={{ duration: 0.6, delay: 0.2 * index }}
+                  className={`lg:flex items-center gap-8 ${
+                    index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
+                  } ${index > 0 ? "lg:mt-16" : ""}`}
                 >
-                  <step.icon className="w-7 h-7 text-primary-foreground" />
-                </motion.div>
+                  {/* Content */}
+                  <div className={`lg:w-1/2 ${index % 2 === 0 ? "lg:text-right lg:pr-16" : "lg:pl-16"}`}>
+                    <motion.div
+                      whileHover={{ x: index % 2 === 0 ? -10 : 10 }}
+                      transition={{ duration: 0.3 }}
+                      className="glass rounded-2xl p-8"
+                    >
+                      <span className="text-5xl font-bold text-primary/20">{step.step_number}</span>
+                      <h3 className="text-2xl font-bold mt-2 mb-4">{step.title}</h3>
+                      <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+                    </motion.div>
+                  </div>
 
-                {/* Spacer */}
-                <div className="lg:w-1/2" />
-              </motion.div>
-            ))}
+                  {/* Icon - Center */}
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 360 }}
+                    transition={{ duration: 0.6 }}
+                    className="hidden lg:flex w-16 h-16 rounded-full bg-primary items-center justify-center flex-shrink-0 z-10"
+                  >
+                    <IconComponent className="w-7 h-7 text-primary-foreground" />
+                  </motion.div>
+
+                  {/* Spacer */}
+                  <div className="lg:w-1/2" />
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>
