@@ -1,13 +1,23 @@
 import { motion } from "framer-motion";
+import { usePageHero } from "@/hooks/useCMSData";
 
 interface PageHeroProps {
   title: string;
   subtitle: string;
   description: string;
   backgroundImage: string;
+  pageSlug?: string;
 }
 
-export const PageHero = ({ title, subtitle, description, backgroundImage }: PageHeroProps) => {
+export const PageHero = ({ title, subtitle, description, backgroundImage, pageSlug }: PageHeroProps) => {
+  const { data: heroData } = usePageHero(pageSlug || "");
+  
+  // Use CMS data if available, otherwise use props
+  const displayTitle = heroData?.title || title;
+  const displaySubtitle = heroData?.subtitle || subtitle;
+  const displayDescription = heroData?.description || description;
+  const displayBackground = heroData?.background_image || backgroundImage;
+
   return (
     <section 
       className="relative h-[80vh] flex items-center justify-center overflow-hidden"
@@ -15,7 +25,7 @@ export const PageHero = ({ title, subtitle, description, backgroundImage }: Page
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${backgroundImage})` }}
+        style={{ backgroundImage: `url(${displayBackground})` }}
       />
       
       {/* Dark Overlay */}
@@ -32,7 +42,7 @@ export const PageHero = ({ title, subtitle, description, backgroundImage }: Page
           transition={{ duration: 0.6 }}
           className="inline-block text-primary font-medium text-sm tracking-wider uppercase mb-4"
         >
-          {subtitle}
+          {displaySubtitle}
         </motion.span>
         
         <motion.h1
@@ -41,7 +51,7 @@ export const PageHero = ({ title, subtitle, description, backgroundImage }: Page
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6"
         >
-          {title}
+          {displayTitle}
         </motion.h1>
         
         <motion.p
@@ -50,7 +60,7 @@ export const PageHero = ({ title, subtitle, description, backgroundImage }: Page
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto"
         >
-          {description}
+          {displayDescription}
         </motion.p>
       </div>
     </section>
