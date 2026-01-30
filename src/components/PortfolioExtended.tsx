@@ -11,63 +11,63 @@ const projects = [
     title: "Apollo Running Store",
     category: "Shopify",
     description: "A modern e-commerce platform for running gear with seamless shopping experience and optimized checkout flow.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=600&h=400&fit=crop",
     stats: { metric: "200%", label: "Conversion Increase" },
     link: "https://apollorunning.store/"
   },
   {
-    title: "GreenLeaf Brand",
+    title: "Grace Grid CMS",
     category: "WordPress",
-    description: "Complete brand overhaul and website redesign for organic products company with integrated e-commerce and blog.",
-    image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&h=400&fit=crop",
+    description: "A clean, modern content management website with elegant grid layouts and intuitive navigation for creative professionals.",
+    image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&h=400&fit=crop",
     stats: { metric: "150K+", label: "Monthly Visitors" },
     link: "https://grace-grid-cms.lovable.app/"
   },
   {
     title: "Tempo Tune Site",
     category: "Maintenance",
-    description: "Comprehensive website maintenance and performance optimization for a music streaming platform.",
-    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop",
+    description: "Comprehensive website maintenance and performance optimization for a music streaming platform with audio features.",
+    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&h=400&fit=crop",
     stats: { metric: "99.9%", label: "Uptime" },
     link: "https://tempo-tune-site.lovable.app/"
   },
   {
-    title: "Bloom Agency",
+    title: "Sports Gear Pro",
     category: "Design",
-    description: "Creative agency portfolio with stunning animations and interactive case studies showcase.",
-    image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop",
-    stats: { metric: "40+", label: "Awards Won" },
+    description: "Athletic brand design with dynamic visuals, product showcases, and high-energy user experience.",
+    image: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&h=400&fit=crop",
+    stats: { metric: "40+", label: "Design Elements" },
     link: "https://apollorunning.store/"
   },
   {
-    title: "CloudTech Solutions",
+    title: "Content Hub SEO",
     category: "SEO",
-    description: "From page 10 to top 3 ranking in just 3 months through comprehensive SEO strategy.",
-    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=400&fit=crop",
+    description: "From page 10 to top 3 ranking in just 3 months through comprehensive SEO strategy for a content platform.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
     stats: { metric: "Top 3", label: "Google Rankings" },
     link: "https://grace-grid-cms.lovable.app/"
   },
   {
-    title: "Artisan Coffee",
+    title: "Runner's Choice",
     category: "Shopify",
-    description: "Subscription-based coffee delivery with custom checkout and inventory management.",
-    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=400&fit=crop",
+    description: "Premium running gear subscription service with custom checkout and seamless inventory management.",
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=400&fit=crop",
     stats: { metric: "5K+", label: "Subscribers" },
     link: "https://apollorunning.store/"
   },
   {
-    title: "Luxe Interiors",
+    title: "Creative Portfolio",
     category: "WordPress",
-    description: "High-end interior design portfolio with project galleries and client testimonials.",
-    image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&h=400&fit=crop",
+    description: "Elegant portfolio website with beautiful galleries, smooth transitions, and testimonial sections.",
+    image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=600&h=400&fit=crop",
     stats: { metric: "300%", label: "Lead Generation" },
     link: "https://tempo-tune-site.lovable.app/"
   },
   {
-    title: "Digital Hub",
+    title: "Music Platform",
     category: "Maintenance",
-    description: "Ongoing maintenance and security updates for a tech news platform with high traffic.",
-    image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&h=400&fit=crop",
+    description: "Ongoing maintenance and security updates for a music discovery platform with high traffic and streaming features.",
+    image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=600&h=400&fit=crop",
     stats: { metric: "1M+", label: "Page Views" },
     link: "https://grace-grid-cms.lovable.app/"
   },
@@ -148,6 +148,8 @@ export const PortfolioExtended = () => {
                   <img
                     src={project.image}
                     alt={project.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
