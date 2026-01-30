@@ -12,6 +12,7 @@ const WorkPage = () => {
         subtitle="Portfolio"
         description="Explore our collection of successful projects and see how we've helped businesses transform their digital presence."
         backgroundImage="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&h=1080&fit=crop"
+        pageSlug="work"
       />
       <PortfolioExtended />
       <Footer />
