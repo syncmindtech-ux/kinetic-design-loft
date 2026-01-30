@@ -4,9 +4,19 @@ import { useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { Send, Mail, MapPin, Phone } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { Send, Mail, MapPin, Phone, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import emailjs from "@emailjs/browser";
+
+const services = [
+  "Website Development",
+  "Website Maintenance",
+  "Shopify Stores",
+  "SEO Optimization",
+  "Figma Design",
+  "Digital Marketing",
+];
 
 const contactInfo = [
   {
@@ -20,6 +30,11 @@ const contactInfo = [
     value: "+256 757 330 656",
   },
   {
+    icon: MessageCircle,
+    label: "WhatsApp",
+    value: "+447355612987",
+  },
+  {
     icon: MapPin,
     label: "Location",
     value: "Kampala, UG",
@@ -30,6 +45,7 @@ export const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [subject, setSubject] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -144,12 +160,19 @@ export const Contact = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium mb-2">Subject</label>
-                <Input
-                  name="subject" // EmailJS variable
-                  placeholder="What's this about?"
-                  required
-                  className="bg-secondary/50 border-border focus:border-primary"
-                />
+                <Select value={subject} onValueChange={setSubject} required>
+                  <SelectTrigger className="bg-secondary/50 border-border focus:border-primary">
+                    <SelectValue placeholder="Select a service" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {services.map((service) => (
+                      <SelectItem key={service} value={service}>
+                        {service}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <input type="hidden" name="subject" value={subject} />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-2">Message</label>

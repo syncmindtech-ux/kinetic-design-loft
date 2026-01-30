@@ -17,29 +17,30 @@ import { Link } from "react-router-dom";
 const serviceDetails = [
   {
     icon: Globe,
-    title: "WordPress Development",
-    description: "We create custom WordPress websites that are fast, secure, and easy to manage. From simple blogs to complex e-commerce platforms, we deliver solutions that grow with your business.",
+    title: "Website Development",
+    description: "We create custom  websites using wordpress and web flow that are fast, secure, and easy to manage. From simple blogs to complex e-commerce platforms, we deliver solutions that grow with your business.",
     benefits: [
       "Custom theme development from scratch",
       "Plugin development and customization",
       "WooCommerce integration for online stores",
-      "Performance optimization and caching",
-      "Security hardening and maintenance",
+      "Advanced animations and interactions",
+      "CMS integration for dynamic content",
+      "Responsive design for all devices",
       "SEO-friendly architecture"
     ],
     image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=500&fit=crop"
   },
   {
     icon: Palette,
-    title: "Webflow Design & Development",
-    description: "Harness the power of Webflow to create stunning, responsive websites without the limitations of traditional CMS platforms. Perfect for marketing sites and portfolios.",
+    title: "Maintenance & Support",
+    description: "Keep your website secure, fast, and performing at its best with ongoing maintenance and dedicated support. We handle the technical details so you can focus on growing your business—without downtime or surprises.",
     benefits: [
-      "Visual development with pixel-perfect precision",
-      "Advanced animations and interactions",
-      "CMS integration for dynamic content",
-      "Responsive design for all devices",
-      "Fast hosting with global CDN",
-      "Easy content updates for your team"
+      "Regular updates and security monitoring",
+      "Performance optimization and uptime checks",
+      "Bug fixes and issue resolution",
+      "Content updates and layout adjustments",
+      "Backup management and recovery support",
+      "Technical assistance when you need it"
     ],
     image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&h=500&fit=crop"
   },
@@ -72,23 +73,23 @@ const serviceDetails = [
     image: "https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?w=800&h=500&fit=crop"
   },
   {
-    icon: Figma,
-    title: "Figma UI/UX Design",
-    description: "Beautiful, user-centered designs that combine aesthetics with functionality. We create interfaces that users love and that drive business results.",
-    benefits: [
-      "User research and persona development",
-      "Wireframing and prototyping",
-      "High-fidelity UI design",
-      "Design systems and component libraries",
-      "Interactive prototypes",
-      "Design handoff and developer support"
+    icon: TrendingUp,
+    title: "Digital Marketing",
+  description: "Data-driven digital marketing strategies designed to grow brand recognition, attract the right audience, and convert traffic into measurable business results.",
+  benefits: [
+    "Search engine optimization (SEO)",
+    "Social media marketing and management",
+    "Pay-per-click (PPC) advertising",
+    "Content marketing and copywriting",
+    "Email marketing campaigns",
+    "Analytics, tracking, and performance reporting"
     ],
     image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=500&fit=crop"
   }
 ];
 
 const stats = [
-  { icon: Rocket, value: "150+", label: "Projects Completed" },
+  { icon: Rocket, value: "6+", label: "Projects Completed" },
   { icon: Target, value: "98%", label: "Client Satisfaction" },
   { icon: TrendingUp, value: "250%", label: "Average ROI Increase" },
 ];
