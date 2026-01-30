@@ -14,9 +14,9 @@ import {
 const services = [
   {
     icon: Globe,
-    title: "WordPress Development",
-    description: "Custom WordPress solutions with powerful themes and plugins tailored to your business needs.",
-    features: ["Custom Themes", "Plugin Development", "WooCommerce", "Performance Optimization"],
+    title: "Website Development",
+    description: "Custom website development using WordPress and Webflow, with powerful themes and plugins tailored to your business needs.",
+    features: ["Custom Themes", "Plugin Development", "Webflow Sites", "Performance Optimization"],
   },
   {
     icon: Settings,
