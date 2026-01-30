@@ -6,53 +6,32 @@ import {
   Settings, 
   ShoppingBag, 
   Search, 
-  Figma,
   ArrowUpRight,
-  TrendingUp
+  TrendingUp,
+  Code,
+  Palette,
+  Zap,
+  Shield
 } from "lucide-react";
+import { useServices } from "@/hooks/useCMSData";
 
-const services = [
-  {
-    icon: Globe,
-    title: "Website Development",
-    description: "Custom website development using WordPress and Webflow, with powerful themes and plugins tailored to your business needs.",
-    features: ["Custom Themes", "Plugin Development", "Webflow Sites", "Performance Optimization"],
-  },
-  {
-    icon: Settings,
-    title: "Website Maintenance",
-    description: "Keep your website running smoothly with our comprehensive maintenance and support services.",
-    features: ["Security Updates", "Performance Monitoring", "Bug Fixes", "Content Updates"],
-  },
-  {
-    icon: ShoppingBag,
-    title: "Shopify Stores",
-    description: "E-commerce solutions that drive sales and provide seamless shopping experiences.",
-    features: ["Store Setup", "Theme Customization", "Payment Integration", "Inventory Management"],
-  },
-  {
-    icon: Search,
-    title: "SEO Optimization",
-    description: "Data-driven SEO strategies to boost your visibility and organic traffic.",
-    features: ["Keyword Research", "On-Page SEO", "Technical SEO", "Analytics & Reporting"],
-  },
-  {
-    icon: Figma,
-    title: "Figma Design",
-    description: "Beautiful UI/UX designs that combine aesthetics with user-centered functionality.",
-    features: ["UI Design", "UX Research", "Prototyping", "Design Systems"],
-  },
-  {
-    icon: TrendingUp,
-    title: "Digital Marketing",
-    description: "Strategic digital marketing campaigns that grow your brand and drive measurable results.",
-    features: ["Social Media", "PPC Advertising", "Email Marketing", "Brand Strategy"],
-  },
-];
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Globe,
+  Settings,
+  ShoppingBag,
+  Search,
+  Figma: Palette,
+  TrendingUp,
+  Code,
+  Palette,
+  Zap,
+  Shield,
+};
 
-const ServiceCard = ({ service, index }: { service: typeof services[0]; index: number }) => {
+const ServiceCard = ({ service, index }: { service: { title: string; description: string; icon: string; features: string[] }; index: number }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const IconComponent = iconMap[service.icon] || Globe;
 
   return (
     <motion.div
@@ -72,7 +51,7 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
         transition={{ duration: 0.6 }}
         className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-300"
       >
-        <service.icon className="w-7 h-7 text-primary" />
+        <IconComponent className="w-7 h-7 text-primary" />
       </motion.div>
 
       {/* Content */}
@@ -102,6 +81,19 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
 export const Services = () => {
   const headerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" });
+  const { data: services, isLoading } = useServices();
+
+  // Fallback services if data is not yet loaded
+  const fallbackServices = [
+    { id: '1', title: "Website Development", description: "Custom website development using WordPress and Webflow, with powerful themes and plugins tailored to your business needs.", icon: "Globe", features: ["Custom Themes", "Plugin Development", "Webflow Sites", "Performance Optimization"], order_index: 0 },
+    { id: '2', title: "Website Maintenance", description: "Keep your website running smoothly with our comprehensive maintenance and support services.", icon: "Settings", features: ["Security Updates", "Performance Monitoring", "Bug Fixes", "Content Updates"], order_index: 1 },
+    { id: '3', title: "Shopify Stores", description: "E-commerce solutions that drive sales and provide seamless shopping experiences.", icon: "ShoppingBag", features: ["Store Setup", "Theme Customization", "Payment Integration", "Inventory Management"], order_index: 2 },
+    { id: '4', title: "SEO Optimization", description: "Data-driven SEO strategies to boost your visibility and organic traffic.", icon: "Search", features: ["Keyword Research", "On-Page SEO", "Technical SEO", "Analytics & Reporting"], order_index: 3 },
+    { id: '5', title: "Figma Design", description: "Beautiful UI/UX designs that combine aesthetics with user-centered functionality.", icon: "Figma", features: ["UI Design", "UX Research", "Prototyping", "Design Systems"], order_index: 4 },
+    { id: '6', title: "Digital Marketing", description: "Strategic digital marketing campaigns that grow your brand and drive measurable results.", icon: "TrendingUp", features: ["Social Media", "PPC Advertising", "Email Marketing", "Brand Strategy"], order_index: 5 },
+  ];
+
+  const displayServices = services && services.length > 0 ? services : fallbackServices;
 
   return (
     <section id="services" className="py-24 md:py-32 relative">
@@ -136,11 +128,27 @@ export const Services = () => {
         </div>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service, index) => (
-            <ServiceCard key={service.title} service={service} index={index} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="glass rounded-2xl p-8 animate-pulse">
+                <div className="w-14 h-14 rounded-xl bg-muted mb-6" />
+                <div className="h-6 bg-muted rounded w-3/4 mb-3" />
+                <div className="h-20 bg-muted rounded mb-6" />
+                <div className="flex gap-2">
+                  <div className="h-6 bg-muted rounded-full w-20" />
+                  <div className="h-6 bg-muted rounded-full w-24" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {displayServices.map((service, index) => (
+              <ServiceCard key={service.id} service={service} index={index} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

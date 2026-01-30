@@ -3,94 +3,68 @@ import { useRef, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
+import { useProjects, useTestimonials } from "@/hooks/useCMSData";
 
-const categories = ["All", "WordPress", "Shopify", "SEO", "Design", "Maintenance"];
-
-const projects = [
+const fallbackProjects = [
   {
+    id: '1',
     title: "Apollo Running Store",
     category: "Shopify",
-    description: "A modern e-commerce platform for running gear with seamless shopping experience and optimized checkout flow.",
-    image: "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=600&h=400&fit=crop",
-    stats: { metric: "200%", label: "Conversion Increase" },
-    link: "https://apollorunning.store/"
+    description: "A modern e-commerce platform for running gear with seamless shopping experience.",
+    image_url: "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=600&h=400&fit=crop",
+    link: "https://apollorunning.store/",
+    order_index: 0,
   },
   {
+    id: '2',
     title: "Grace Grid CMS",
     category: "WordPress",
-    description: "A clean, modern content management website with elegant grid layouts and intuitive navigation for creative professionals.",
-    image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&h=400&fit=crop",
-    stats: { metric: "150K+", label: "Monthly Visitors" },
-    link: "https://grace-grid-cms.lovable.app/"
+    description: "A clean, modern content management website with elegant grid layouts.",
+    image_url: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&h=400&fit=crop",
+    link: "https://grace-grid-cms.lovable.app/",
+    order_index: 1,
   },
   {
+    id: '3',
     title: "Tempo Tune Site",
     category: "Maintenance",
-    description: "Comprehensive website maintenance and performance optimization for a music streaming platform with audio features.",
-    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&h=400&fit=crop",
-    stats: { metric: "99.9%", label: "Uptime" },
-    link: "https://tempo-tune-site.lovable.app/"
-  },
-  {
-    title: "Sports Gear Pro",
-    category: "Design",
-    description: "Athletic brand design with dynamic visuals, product showcases, and high-energy user experience.",
-    image: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&h=400&fit=crop",
-    stats: { metric: "40+", label: "Design Elements" },
-    link: "https://apollorunning.store/"
-  },
-  {
-    title: "Content Hub SEO",
-    category: "SEO",
-    description: "From page 10 to top 3 ranking in just 3 months through comprehensive SEO strategy for a content platform.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
-    stats: { metric: "Top 3", label: "Google Rankings" },
-    link: "https://grace-grid-cms.lovable.app/"
-  },
-  {
-    title: "Runner's Choice",
-    category: "Shopify",
-    description: "Premium running gear subscription service with custom checkout and seamless inventory management.",
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=400&fit=crop",
-    stats: { metric: "5K+", label: "Subscribers" },
-    link: "https://apollorunning.store/"
-  },
-  {
-    title: "Creative Portfolio",
-    category: "WordPress",
-    description: "Elegant portfolio website with beautiful galleries, smooth transitions, and testimonial sections.",
-    image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=600&h=400&fit=crop",
-    stats: { metric: "300%", label: "Lead Generation" },
-    link: "https://tempo-tune-site.lovable.app/"
-  },
-  {
-    title: "Music Platform",
-    category: "Maintenance",
-    description: "Ongoing maintenance and security updates for a music discovery platform with high traffic and streaming features.",
-    image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=600&h=400&fit=crop",
-    stats: { metric: "1M+", label: "Page Views" },
-    link: "https://grace-grid-cms.lovable.app/"
+    description: "Comprehensive website maintenance for a music streaming platform.",
+    image_url: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&h=400&fit=crop",
+    link: "https://tempo-tune-site.lovable.app/",
+    order_index: 2,
   },
 ];
 
-const testimonials = [
+const fallbackTestimonials = [
   {
-    quote: "SyncMindTech transformed our online presence completely. The results exceeded all our expectations.",
-    author: "Jennifer Martinez",
-    role: "CEO, TechStart",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop&crop=face"
+    id: '1',
+    name: "Jennifer Martinez",
+    role: "CEO",
+    company: "TechStart",
+    content: "SyncMindTech transformed our online presence completely. The results exceeded all our expectations.",
+    avatar_url: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    order_index: 0,
   },
   {
-    quote: "Professional, creative, and incredibly responsive. They delivered our project ahead of schedule.",
-    author: "David Thompson",
-    role: "Founder, GreenLeaf",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
+    id: '2',
+    name: "David Thompson",
+    role: "Founder",
+    company: "GreenLeaf",
+    content: "Professional, creative, and incredibly responsive. They delivered our project ahead of schedule.",
+    avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    order_index: 1,
   },
   {
-    quote: "Our SEO rankings improved dramatically. They really know what they're doing.",
-    author: "Lisa Wang",
-    role: "Marketing Director, CloudTech",
-    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100&h=100&fit=crop&crop=face"
+    id: '3',
+    name: "Lisa Wang",
+    role: "Marketing Director",
+    company: "CloudTech",
+    content: "Our SEO rankings improved dramatically. They really know what they're doing.",
+    avatar_url: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    order_index: 2,
   },
 ];
 
@@ -98,10 +72,19 @@ export const PortfolioExtended = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const headerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" });
+  
+  const { data: projects } = useProjects();
+  const { data: testimonials } = useTestimonials();
+
+  const displayProjects = projects && projects.length > 0 ? projects : fallbackProjects;
+  const displayTestimonials = testimonials && testimonials.length > 0 ? testimonials : fallbackTestimonials;
+
+  // Get unique categories from projects
+  const categories = ["All", ...Array.from(new Set(displayProjects.map(p => p.category)))];
 
   const filteredProjects = activeCategory === "All" 
-    ? projects 
-    : projects.filter(p => p.category === activeCategory);
+    ? displayProjects 
+    : displayProjects.filter(p => p.category === activeCategory);
 
   return (
     <>
@@ -134,8 +117,8 @@ export const PortfolioExtended = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project, index) => (
               <motion.a
-                key={project.title}
-                href={project.link}
+                key={project.id}
+                href={project.link || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 50 }}
@@ -146,19 +129,13 @@ export const PortfolioExtended = () => {
               >
                 <div className="aspect-[4/3] overflow-hidden relative">
                   <img
-                    src={project.image}
+                    src={project.image_url}
                     alt={project.title}
                     loading="lazy"
                     decoding="async"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-white text-center">
-                      <span className="text-2xl font-bold">{project.stats.metric}</span>
-                      <p className="text-sm">{project.stats.label}</p>
-                    </div>
-                  </div>
                 </div>
                 <div className="p-6">
                   <span className="text-primary text-sm font-medium">{project.category}</span>
@@ -191,25 +168,27 @@ export const PortfolioExtended = () => {
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
+            {displayTestimonials.map((testimonial, index) => (
               <motion.div
-                key={testimonial.author}
+                key={testimonial.id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="glass rounded-2xl p-8"
               >
-                <p className="text-foreground/80 italic mb-6">"{testimonial.quote}"</p>
+                <p className="text-foreground/80 italic mb-6">"{testimonial.content}"</p>
                 <div className="flex items-center gap-4">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.author}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
+                  {testimonial.avatar_url && (
+                    <img
+                      src={testimonial.avatar_url}
+                      alt={testimonial.name}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                  )}
                   <div>
-                    <p className="font-semibold">{testimonial.author}</p>
-                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                    <p className="font-semibold">{testimonial.name}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.role}, {testimonial.company}</p>
                   </div>
                 </div>
               </motion.div>

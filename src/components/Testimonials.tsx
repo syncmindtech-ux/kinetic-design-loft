@@ -1,31 +1,35 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Quote, ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { useTestimonials } from "@/hooks/useCMSData";
 
-const testimonials = [
+const fallbackTestimonials = [
   {
+    id: '1',
     name: "Sarah Johnson",
-    role: "CEO, TechStart",
+    role: "CEO",
+    company: "TechStart",
     content: "SyncMindTech transformed our online presence completely. Our new Shopify store saw a 200% increase in conversions within the first month.",
     rating: 5,
+    order_index: 0,
   },
   {
+    id: '2',
     name: "Michael Chen",
-    role: "Founder, GreenLeaf Co",
+    role: "Founder",
+    company: "GreenLeaf Co",
     content: "The SEO work they did was phenomenal. We went from page 5 to ranking in the top 3 for our main keywords. Couldn't be happier!",
     rating: 5,
+    order_index: 1,
   },
   {
+    id: '3',
     name: "Emily Rodriguez",
-    role: "Marketing Director, Bloom Agency",
+    role: "Marketing Director",
+    company: "Bloom Agency",
     content: "Their Webflow expertise is unmatched. They delivered a stunning website that our clients constantly compliment. Highly recommended!",
     rating: 5,
-  },
-  {
-    name: "David Park",
-    role: "Owner, Urban Fitness",
-    content: "From the Figma designs to the final WordPress site, everything was executed flawlessly. A true partner for digital success.",
-    rating: 5,
+    order_index: 2,
   },
 ];
 
@@ -33,17 +37,20 @@ export const Testimonials = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeIndex, setActiveIndex] = useState(0);
+  const { data: testimonials } = useTestimonials();
+
+  const displayTestimonials = testimonials && testimonials.length > 0 ? testimonials : fallbackTestimonials;
 
   const nextTestimonial = () => {
-    setActiveIndex((prev) => (prev + 1) % testimonials.length);
+    setActiveIndex((prev) => (prev + 1) % displayTestimonials.length);
   };
 
   const prevTestimonial = () => {
-    setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    setActiveIndex((prev) => (prev - 1 + displayTestimonials.length) % displayTestimonials.length);
   };
 
   return (
-    <section id="work" className="py-20 md:py-15 relative bg-[#f6f5f5]">
+    <section id="work" className="py-20 md:py-15 relative bg-[#f6f5f5] dark:bg-secondary/30">
       <div className="container mx-auto px-6">
         <div ref={ref} className="text-center max-w-3xl mx-auto mb-16">
           <motion.span
@@ -87,20 +94,22 @@ export const Testimonials = () => {
               >
                 {/* Stars */}
                 <div className="flex justify-center gap-1 mb-6">
-                  {Array.from({ length: testimonials[activeIndex].rating }).map((_, i) => (
+                  {Array.from({ length: displayTestimonials[activeIndex]?.rating || 5 }).map((_, i) => (
                     <Star key={i} className="w-5 h-5 fill-primary text-primary" />
                   ))}
                 </div>
 
                 {/* Quote */}
                 <p className="text-xl md:text-2xl text-foreground/90 leading-relaxed mb-8 italic">
-                  "{testimonials[activeIndex].content}"
+                  "{displayTestimonials[activeIndex]?.content}"
                 </p>
 
                 {/* Author */}
                 <div>
-                  <p className="text-lg font-semibold">{testimonials[activeIndex].name}</p>
-                  <p className="text-muted-foreground text-sm">{testimonials[activeIndex].role}</p>
+                  <p className="text-lg font-semibold">{displayTestimonials[activeIndex]?.name}</p>
+                  <p className="text-muted-foreground text-sm">
+                    {displayTestimonials[activeIndex]?.role}, {displayTestimonials[activeIndex]?.company}
+                  </p>
                 </div>
               </motion.div>
             </div>
@@ -116,7 +125,7 @@ export const Testimonials = () => {
               
               {/* Dots */}
               <div className="flex gap-2">
-                {testimonials.map((_, index) => (
+                {displayTestimonials.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setActiveIndex(index)}

@@ -14,6 +14,7 @@ const ServicesPage = () => {
         subtitle="What We Offer"
         description="Comprehensive digital solutions tailored to elevate your brand and drive measurable business results."
         backgroundImage="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&h=1080&fit=crop"
+        pageSlug="services"
       />
       <Services />
       <ServiceDetails />

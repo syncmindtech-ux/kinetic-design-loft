@@ -12,6 +12,7 @@ const ContactPage = () => {
         subtitle="Contact Us"
         description="Ready to start your project? Let's discuss how we can help bring your vision to life."
         backgroundImage="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1920&h=1080&fit=crop"
+        pageSlug="contact"
       />
       <Contact />
       <Footer />
