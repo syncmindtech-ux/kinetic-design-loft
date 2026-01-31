@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { ImageUpload } from "../ImageUpload";
+import { ConfirmDeleteDialog } from "../ConfirmDeleteDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Save, RefreshCw, Plus, Trash2 } from "lucide-react";
@@ -29,6 +30,8 @@ export const BlogEditor = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
 
   const fetchPosts = async () => {
     setIsLoading(true);
@@ -94,17 +97,23 @@ export const BlogEditor = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Delete this post?")) return;
+  const openDeleteDialog = (id: string) => {
+    setItemToDelete(id);
+    setDeleteDialogOpen(true);
+  };
 
-    const { error } = await supabase.from("blog_posts").delete().eq("id", id);
+  const handleDelete = async () => {
+    if (!itemToDelete) return;
+
+    const { error } = await supabase.from("blog_posts").delete().eq("id", itemToDelete);
 
     if (error) {
       toast.error("Failed to delete");
     } else {
-      setPosts(posts.filter((p) => p.id !== id));
+      setPosts(posts.filter((p) => p.id !== itemToDelete));
       toast.success("Deleted!");
     }
+    setItemToDelete(null);
   };
 
   const updatePost = (id: string, updates: Partial<BlogPost>) => {
@@ -258,7 +267,7 @@ export const BlogEditor = () => {
                   <Button variant="outline" size="sm" onClick={() => setEditingId(post.id)}>
                     Edit
                   </Button>
-                  <Button variant="destructive" size="sm" onClick={() => handleDelete(post.id)}>
+                  <Button variant="destructive" size="sm" onClick={() => openDeleteDialog(post.id)}>
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
@@ -267,6 +276,14 @@ export const BlogEditor = () => {
           </div>
         ))}
       </div>
+
+      <ConfirmDeleteDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDelete}
+        title="Delete Blog Post"
+        description="Are you sure you want to delete this blog post? This action cannot be undone."
+      />
     </div>
   );
 };

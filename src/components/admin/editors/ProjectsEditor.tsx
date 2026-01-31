@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { ImageUpload } from "../ImageUpload";
+import { ConfirmDeleteDialog } from "../ConfirmDeleteDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Save, RefreshCw, Plus, Trash2, ExternalLink } from "lucide-react";
@@ -25,6 +26,8 @@ export const ProjectsEditor = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
 
   const fetchProjects = async () => {
     setIsLoading(true);
@@ -86,17 +89,23 @@ export const ProjectsEditor = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Delete this project?")) return;
+  const openDeleteDialog = (id: string) => {
+    setItemToDelete(id);
+    setDeleteDialogOpen(true);
+  };
 
-    const { error } = await supabase.from("projects").delete().eq("id", id);
+  const handleDelete = async () => {
+    if (!itemToDelete) return;
+
+    const { error } = await supabase.from("projects").delete().eq("id", itemToDelete);
 
     if (error) {
       toast.error("Failed to delete");
     } else {
-      setProjects(projects.filter((p) => p.id !== id));
+      setProjects(projects.filter((p) => p.id !== itemToDelete));
       toast.success("Deleted!");
     }
+    setItemToDelete(null);
   };
 
   const updateProject = (id: string, updates: Partial<Project>) => {
@@ -210,7 +219,7 @@ export const ProjectsEditor = () => {
                   <Button variant="outline" size="sm" onClick={() => setEditingId(project.id)}>
                     Edit
                   </Button>
-                  <Button variant="destructive" size="sm" onClick={() => handleDelete(project.id)}>
+                  <Button variant="destructive" size="sm" onClick={() => openDeleteDialog(project.id)}>
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
@@ -219,6 +228,14 @@ export const ProjectsEditor = () => {
           </div>
         ))}
       </div>
+
+      <ConfirmDeleteDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDelete}
+        title="Delete Project"
+        description="Are you sure you want to delete this project? This action cannot be undone."
+      />
     </div>
   );
 };
