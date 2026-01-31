@@ -121,6 +121,8 @@ export const useServices = () => {
       if (error) throw error;
       return data as Service[];
     },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 30, // 30 minutes cache
   });
 };
 
@@ -135,6 +137,8 @@ export const useBanners = () => {
       if (error) throw error;
       return data as Banner[];
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 };
 
@@ -149,6 +153,8 @@ export const useWhyChooseUs = () => {
       if (error) throw error;
       return data as WhyChooseUs[];
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 };
 
@@ -163,6 +169,8 @@ export const useProcessSteps = () => {
       if (error) throw error;
       return data as ProcessStep[];
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 };
 
@@ -177,6 +185,8 @@ export const useTestimonials = () => {
       if (error) throw error;
       return data as Testimonial[];
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 };
 
@@ -191,6 +201,8 @@ export const useProjects = () => {
       if (error) throw error;
       return data as Project[];
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 };
 
@@ -205,6 +217,8 @@ export const useBlogPosts = () => {
       if (error) throw error;
       return data as BlogPost[];
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 };
 
@@ -220,6 +234,8 @@ export const usePageHero = (slug: string) => {
       if (error) throw error;
       return data as PageHero | null;
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 };
 
@@ -235,6 +251,8 @@ export const useHeroContent = () => {
       if (error) throw error;
       return data as HeroContent | null;
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 };
 
@@ -250,6 +268,8 @@ export const useCTAContent = () => {
       if (error) throw error;
       return data as CTAContent | null;
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 };
 
@@ -265,5 +285,7 @@ export const useContactInfo = () => {
       if (error) throw error;
       return data as ContactInfo | null;
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 };
