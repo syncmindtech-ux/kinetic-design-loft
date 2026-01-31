@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { ConfirmDeleteDialog } from "../ConfirmDeleteDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Save, RefreshCw, Plus, Trash2 } from "lucide-react";
@@ -23,6 +24,8 @@ export const ProcessEditor = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
 
   const fetchSteps = async () => {
     setIsLoading(true);
@@ -83,17 +86,23 @@ export const ProcessEditor = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Delete this step?")) return;
+  const openDeleteDialog = (id: string) => {
+    setItemToDelete(id);
+    setDeleteDialogOpen(true);
+  };
 
-    const { error } = await supabase.from("process_steps").delete().eq("id", id);
+  const handleDelete = async () => {
+    if (!itemToDelete) return;
+
+    const { error } = await supabase.from("process_steps").delete().eq("id", itemToDelete);
 
     if (error) {
       toast.error("Failed to delete");
     } else {
-      setSteps(steps.filter((s) => s.id !== id));
+      setSteps(steps.filter((s) => s.id !== itemToDelete));
       toast.success("Deleted!");
     }
+    setItemToDelete(null);
   };
 
   const updateStep = (id: string, updates: Partial<ProcessStep>) => {
@@ -189,7 +198,7 @@ export const ProcessEditor = () => {
                   <Button variant="outline" size="sm" onClick={() => setEditingId(step.id)}>
                     Edit
                   </Button>
-                  <Button variant="destructive" size="sm" onClick={() => handleDelete(step.id)}>
+                  <Button variant="destructive" size="sm" onClick={() => openDeleteDialog(step.id)}>
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
@@ -198,6 +207,14 @@ export const ProcessEditor = () => {
           </div>
         ))}
       </div>
+
+      <ConfirmDeleteDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDelete}
+        title="Delete Step"
+        description="Are you sure you want to delete this process step? This action cannot be undone."
+      />
     </div>
   );
 };
