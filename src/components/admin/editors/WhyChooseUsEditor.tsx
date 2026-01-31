@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { ConfirmDeleteDialog } from "../ConfirmDeleteDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Save, RefreshCw, Plus, Trash2 } from "lucide-react";
@@ -22,6 +23,8 @@ export const WhyChooseUsEditor = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
 
   const fetchReasons = async () => {
     setIsLoading(true);
@@ -81,17 +84,23 @@ export const WhyChooseUsEditor = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Delete this item?")) return;
+  const openDeleteDialog = (id: string) => {
+    setItemToDelete(id);
+    setDeleteDialogOpen(true);
+  };
 
-    const { error } = await supabase.from("why_choose_us").delete().eq("id", id);
+  const handleDelete = async () => {
+    if (!itemToDelete) return;
+
+    const { error } = await supabase.from("why_choose_us").delete().eq("id", itemToDelete);
 
     if (error) {
       toast.error("Failed to delete");
     } else {
-      setReasons(reasons.filter((r) => r.id !== id));
+      setReasons(reasons.filter((r) => r.id !== itemToDelete));
       toast.success("Deleted!");
     }
+    setItemToDelete(null);
   };
 
   const updateReason = (id: string, updates: Partial<Reason>) => {
@@ -180,7 +189,7 @@ export const WhyChooseUsEditor = () => {
                   <Button variant="outline" size="sm" onClick={() => setEditingId(reason.id)}>
                     Edit
                   </Button>
-                  <Button variant="destructive" size="sm" onClick={() => handleDelete(reason.id)}>
+                  <Button variant="destructive" size="sm" onClick={() => openDeleteDialog(reason.id)}>
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
@@ -189,6 +198,14 @@ export const WhyChooseUsEditor = () => {
           </div>
         ))}
       </div>
+
+      <ConfirmDeleteDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDelete}
+        title="Delete Reason"
+        description="Are you sure you want to delete this item? This action cannot be undone."
+      />
     </div>
   );
 };

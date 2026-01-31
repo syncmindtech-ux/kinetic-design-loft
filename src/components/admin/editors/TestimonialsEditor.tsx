@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { ImageUpload } from "../ImageUpload";
+import { ConfirmDeleteDialog } from "../ConfirmDeleteDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Save, RefreshCw, Plus, Trash2, Star } from "lucide-react";
@@ -24,6 +25,8 @@ export const TestimonialsEditor = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
 
   const fetchTestimonials = async () => {
     setIsLoading(true);
@@ -86,17 +89,23 @@ export const TestimonialsEditor = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Delete this testimonial?")) return;
+  const openDeleteDialog = (id: string) => {
+    setItemToDelete(id);
+    setDeleteDialogOpen(true);
+  };
 
-    const { error } = await supabase.from("testimonials").delete().eq("id", id);
+  const handleDelete = async () => {
+    if (!itemToDelete) return;
+
+    const { error } = await supabase.from("testimonials").delete().eq("id", itemToDelete);
 
     if (error) {
       toast.error("Failed to delete");
     } else {
-      setTestimonials(testimonials.filter((t) => t.id !== id));
+      setTestimonials(testimonials.filter((t) => t.id !== itemToDelete));
       toast.success("Deleted!");
     }
+    setItemToDelete(null);
   };
 
   const updateTestimonial = (id: string, updates: Partial<Testimonial>) => {
@@ -213,7 +222,7 @@ export const TestimonialsEditor = () => {
                   <Button variant="outline" size="sm" onClick={() => setEditingId(testimonial.id)}>
                     Edit
                   </Button>
-                  <Button variant="destructive" size="sm" onClick={() => handleDelete(testimonial.id)}>
+                  <Button variant="destructive" size="sm" onClick={() => openDeleteDialog(testimonial.id)}>
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
@@ -222,6 +231,14 @@ export const TestimonialsEditor = () => {
           </div>
         ))}
       </div>
+
+      <ConfirmDeleteDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDelete}
+        title="Delete Testimonial"
+        description="Are you sure you want to delete this testimonial? This action cannot be undone."
+      />
     </div>
   );
 };

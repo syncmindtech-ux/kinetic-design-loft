@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { ConfirmDeleteDialog } from "../ConfirmDeleteDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Save, RefreshCw, Plus, Trash2, X } from "lucide-react";
@@ -23,6 +24,8 @@ export const ServicesEditor = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
 
   const fetchServices = async () => {
     setIsLoading(true);
@@ -83,17 +86,23 @@ export const ServicesEditor = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Delete this service?")) return;
+  const openDeleteDialog = (id: string) => {
+    setItemToDelete(id);
+    setDeleteDialogOpen(true);
+  };
 
-    const { error } = await supabase.from("services").delete().eq("id", id);
+  const handleDelete = async () => {
+    if (!itemToDelete) return;
+
+    const { error } = await supabase.from("services").delete().eq("id", itemToDelete);
 
     if (error) {
       toast.error("Failed to delete");
     } else {
-      setServices(services.filter((s) => s.id !== id));
+      setServices(services.filter((s) => s.id !== itemToDelete));
       toast.success("Deleted!");
     }
+    setItemToDelete(null);
   };
 
   const updateService = (id: string, updates: Partial<Service>) => {
@@ -232,7 +241,7 @@ export const ServicesEditor = () => {
                   <Button variant="outline" size="sm" onClick={() => setEditingId(service.id)}>
                     Edit
                   </Button>
-                  <Button variant="destructive" size="sm" onClick={() => handleDelete(service.id)}>
+                  <Button variant="destructive" size="sm" onClick={() => openDeleteDialog(service.id)}>
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
@@ -241,6 +250,14 @@ export const ServicesEditor = () => {
           </div>
         ))}
       </div>
+
+      <ConfirmDeleteDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDelete}
+        title="Delete Service"
+        description="Are you sure you want to delete this service? This action cannot be undone."
+      />
     </div>
   );
 };

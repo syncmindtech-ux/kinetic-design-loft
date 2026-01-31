@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { ImageUpload } from "../ImageUpload";
+import { ConfirmDeleteDialog } from "../ConfirmDeleteDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Save, RefreshCw, Plus, Trash2, GripVertical } from "lucide-react";
@@ -25,6 +26,8 @@ export const BannersEditor = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
 
   const fetchBanners = async () => {
     setIsLoading(true);
@@ -88,17 +91,23 @@ export const BannersEditor = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this banner?")) return;
+  const openDeleteDialog = (id: string) => {
+    setItemToDelete(id);
+    setDeleteDialogOpen(true);
+  };
 
-    const { error } = await supabase.from("banners").delete().eq("id", id);
+  const handleDelete = async () => {
+    if (!itemToDelete) return;
+
+    const { error } = await supabase.from("banners").delete().eq("id", itemToDelete);
 
     if (error) {
       toast.error("Failed to delete banner");
     } else {
-      setBanners(banners.filter((b) => b.id !== id));
+      setBanners(banners.filter((b) => b.id !== itemToDelete));
       toast.success("Banner deleted!");
     }
+    setItemToDelete(null);
   };
 
   const updateBanner = (id: string, updates: Partial<Banner>) => {
@@ -223,7 +232,7 @@ export const BannersEditor = () => {
                   <Button variant="outline" size="sm" onClick={() => setEditingId(banner.id)}>
                     Edit
                   </Button>
-                  <Button variant="destructive" size="sm" onClick={() => handleDelete(banner.id)}>
+                  <Button variant="destructive" size="sm" onClick={() => openDeleteDialog(banner.id)}>
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
@@ -232,6 +241,14 @@ export const BannersEditor = () => {
           </div>
         ))}
       </div>
+
+      <ConfirmDeleteDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDelete}
+        title="Delete Banner"
+        description="Are you sure you want to delete this banner? This action cannot be undone."
+      />
     </div>
   );
 };
