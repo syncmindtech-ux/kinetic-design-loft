@@ -2,8 +2,23 @@ import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
+import { useHeroContent } from "@/hooks/useCMSData";
+import { Skeleton } from "./ui/skeleton";
 
 export const Hero = () => {
+  const { data: heroContent, isLoading } = useHeroContent();
+
+  // Fallback content for fast initial render
+  const content = heroContent || {
+    subtitle: "Innovating Digital Excellence",
+    title: "We Build",
+    highlight_text: "Stunning",
+    description: "WordPress • Webflow • Shopify • SEO • Figma Design. From concept to launch, we create digital experiences that captivate and convert.",
+    button_text: "Start Your Project",
+    button_link: "/contact",
+    image_url: "/output-onlinegiftools (3).gif"
+  };
+
   return (
     <section className="relative min-h-screen flex items-center pt-28 pb-40 md:pb-48 overflow-hidden">
       {/* Background Image */}
@@ -31,17 +46,17 @@ export const Hero = () => {
             >
               <Sparkles className="w-4 h-4 text-red-500" />
               <span className="text-sm text-white/90">
-                Innovating Digital Excellence
+                {content.subtitle}
               </span>
             </motion.div>
 
             {/* Headings */}
             <h1 className="text-[44px] sm:text-6xl md:text-7xl font-extrabold text-white leading-[1.05]">
-              We Build
+              {content.title}
             </h1>
 
             <h1 className="text-[44px] sm:text-6xl md:text-7xl font-extrabold leading-[1.05]">
-              <span className="text-red-500">Stunning</span>{" "}
+              <span className="text-red-500">{content.highlight_text}</span>{" "}
               <span className="text-white">Websites</span>
             </h1>
 
@@ -52,21 +67,17 @@ export const Hero = () => {
 
             {/* Subtext */}
             <p className="text-white/85 max-w-2xl text-lg mb-12">
-              WordPress • Webflow • Shopify • SEO • Figma Design
-              <br />
-              <span className="text-white/70">
-                From concept to launch, we create digital experiences that captivate and convert.
-              </span>
+              {content.description}
             </p>
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start">
-              <Link to="/contact">
+              <Link to={content.button_link}>
                 <Button
                   size="xl"
                   className="bg-red-500 hover:bg-red-600 text-white px-10 h-14"
                 >
-                  Start Your Project
+                  {content.button_text}
                   <ArrowRight className="ml-3 w-5 h-5" />
                 </Button>
               </Link>
@@ -92,7 +103,7 @@ export const Hero = () => {
               className="rounded-3xl p-10 shadow-2xl"
             >
               <img
-                src="/output-onlinegiftools (3).gif"
+                src={content.image_url || "/output-onlinegiftools (3).gif"}
                 alt="Website analytics animation"
                 className="w-[420px] max-w-full"
                 loading="eager"
